@@ -1,21 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node {
+struct Node
+{
     int data;
     struct Node *left;
     struct Node *right;
 };
 
-struct Node* createNode(int data) {
-    struct Node* newNode = malloc(sizeof(struct Node));
+struct Node *createNode(int data)
+{
+    struct Node *newNode = malloc(sizeof(struct Node));
     newNode->data = data;
     newNode->left = NULL;
     newNode->right = NULL;
     return newNode;
 }
 
-struct Node* insert(struct Node* root, int data) {
+struct Node *insert(struct Node *root, int data)
+{
     if (root == NULL)
         return createNode(data);
 
@@ -27,24 +30,28 @@ struct Node* insert(struct Node* root, int data) {
     return root;
 }
 
-int max(int a, int b) {
+int max(int a, int b)
+{
     return a > b ? a : b;
 }
 
-int height(struct Node* root) {
+int height(struct Node *root)
+{
     if (root == NULL)
         return -1;
 
     return 1 + max(height(root->left), height(root->right));
 }
 
-int main() {
-    struct Node* root = NULL;
+int main()
+{
+    struct Node *root = NULL;
     int n, value;
 
     scanf("%d", &n);
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
+    {
         scanf("%d", &value);
         root = insert(root, value);
     }
