@@ -19,16 +19,29 @@ struct Node *createNode(int data)
     return newNode;
 }
 
-int countLeaves(struct Node *root)
+struct Node *invertTree(struct Node *root)
 {
     if (root == NULL)
-        return 0;
+        return NULL;
 
-    if (root->left == NULL && root->right == NULL)
-        return 1;
+    struct Node *temp = root->left;
+    root->left = root->right;
+    root->right = temp;
 
-    return countLeaves(root->left) +
-           countLeaves(root->right);
+    invertTree(root->left);
+    invertTree(root->right);
+
+    return root;
+}
+
+void inorder(struct Node *root)
+{
+    if (root != NULL)
+    {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
 }
 
 int main()
@@ -41,7 +54,13 @@ int main()
     root->left->left = createNode(4);
     root->left->right = createNode(5);
 
-    printf("Leaf Nodes: %d", countLeaves(root));
+    printf("Before: ");
+    inorder(root);
+
+    invertTree(root);
+
+    printf("\nAfter: ");
+    inorder(root);
 
     return 0;
 }

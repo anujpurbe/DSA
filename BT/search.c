@@ -19,16 +19,16 @@ struct Node *createNode(int data)
     return newNode;
 }
 
-int countLeaves(struct Node *root)
+int search(struct Node *root, int key)
 {
     if (root == NULL)
         return 0;
 
-    if (root->left == NULL && root->right == NULL)
+    if (root->data == key)
         return 1;
 
-    return countLeaves(root->left) +
-           countLeaves(root->right);
+    return search(root->left, key) ||
+           search(root->right, key);
 }
 
 int main()
@@ -41,7 +41,14 @@ int main()
     root->left->left = createNode(4);
     root->left->right = createNode(5);
 
-    printf("Leaf Nodes: %d", countLeaves(root));
+    int key;
+
+    scanf("%d", &key);
+
+    if (search(root, key))
+        printf("Element found");
+    else
+        printf("Element not found");
 
     return 0;
 }

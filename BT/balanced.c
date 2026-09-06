@@ -19,16 +19,30 @@ struct Node *createNode(int data)
     return newNode;
 }
 
-int countLeaves(struct Node *root)
+int height(struct Node *root)
 {
     if (root == NULL)
         return 0;
 
-    if (root->left == NULL && root->right == NULL)
-        return 1;
+    int leftHeight = height(root->left);
 
-    return countLeaves(root->left) +
-           countLeaves(root->right);
+    if (leftHeight == -1)
+        return -1;
+
+    int rightHeight = height(root->right);
+
+    if (rightHeight == -1)
+        return -1;
+
+    if (abs(leftHeight - rightHeight) > 1)
+        return -1;
+
+    return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
+}
+
+int isBalanced(struct Node *root)
+{
+    return height(root) != -1;
 }
 
 int main()
@@ -41,7 +55,10 @@ int main()
     root->left->left = createNode(4);
     root->left->right = createNode(5);
 
-    printf("Leaf Nodes: %d", countLeaves(root));
+    if (isBalanced(root))
+        printf("Tree is balanced");
+    else
+        printf("Tree is not balanced");
 
     return 0;
 }

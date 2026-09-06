@@ -10,25 +10,25 @@ struct Node
 
 struct Node *createNode(int data)
 {
-    struct Node *newNode = malloc(sizeof(struct Node));
-
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
     newNode->data = data;
     newNode->left = NULL;
     newNode->right = NULL;
-
     return newNode;
 }
 
-int countLeaves(struct Node *root)
+int max(int a, int b)
+{
+    return a > b ? a : b;
+}
+
+int height(struct Node *root)
 {
     if (root == NULL)
         return 0;
 
-    if (root->left == NULL && root->right == NULL)
-        return 1;
-
-    return countLeaves(root->left) +
-           countLeaves(root->right);
+    return 1 + max(height(root->left),
+                   height(root->right));
 }
 
 int main()
@@ -41,7 +41,7 @@ int main()
     root->left->left = createNode(4);
     root->left->right = createNode(5);
 
-    printf("Leaf Nodes: %d", countLeaves(root));
+    printf("Max Height: %d", height(root));
 
     return 0;
 }

@@ -19,16 +19,24 @@ struct Node *createNode(int data)
     return newNode;
 }
 
-int countLeaves(struct Node *root)
+struct Node *LCA(struct Node *root, int p, int q)
 {
     if (root == NULL)
-        return 0;
+        return NULL;
 
-    if (root->left == NULL && root->right == NULL)
-        return 1;
+    if (root->data == p || root->data == q)
+        return root;
 
-    return countLeaves(root->left) +
-           countLeaves(root->right);
+    struct Node *left = LCA(root->left, p, q);
+    struct Node *right = LCA(root->right, p, q);
+
+    if (left != NULL && right != NULL)
+        return root;
+
+    if (left != NULL)
+        return left;
+
+    return right;
 }
 
 int main()
@@ -41,7 +49,16 @@ int main()
     root->left->left = createNode(4);
     root->left->right = createNode(5);
 
-    printf("Leaf Nodes: %d", countLeaves(root));
+    int p, q;
+
+    scanf("%d %d", &p, &q);
+
+    struct Node *result = LCA(root, p, q);
+
+    if (result != NULL)
+        printf("LCA: %d", result->data);
+    else
+        printf("LCA not found");
 
     return 0;
 }
